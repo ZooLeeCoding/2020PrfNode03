@@ -8,7 +8,8 @@ router.route('/pelda').get((req, res) => {
         return res.status(403).send('jelentkezz be előbb');
     }
 }).post((req, res) => {
-    return res.status(500).send('Ezt még nem implementáltuk');
+    console.log(req.ertelmetlen);
+    return res.status(200).send(req.ertelmetlen);
 }).delete((req, res) => {
     return res.status(404).send('Még nincs mit törölni');
 });

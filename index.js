@@ -11,6 +11,13 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+const ertelmetlen = (req, res, next) => {
+    req.ertelmetlen = 'Ennek nincs sok értelme, de legalább jó példa';
+    next(); // a req, res menjen tovább a következő feldolgozó middleware-nek
+}
+
+app.use(ertelmetlen());
+
 // ezekkel lépteti be a passport sessionbe a usert majd szedi ki onnan
 passport.serializeUser((user, done) => {
     if(!user) return done("Hiba - nincs user", undefined);
