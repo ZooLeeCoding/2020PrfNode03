@@ -1,19 +1,6 @@
 const router = require('express').Router();
 const passport = require('passport');
 
-router.route('/pelda').get((req, res) => {
-    if(req.isAuthenticated()) {
-        return res.status(200).send('igen, ez egy pelda');
-    } else {
-        return res.status(403).send('jelentkezz be előbb');
-    }
-}).post((req, res) => {
-    console.log(req.ertelmetlen);
-    return res.status(200).send(req.ertelmetlen);
-}).delete((req, res) => {
-    return res.status(404).send('Még nincs mit törölni');
-});
-
 router.route('/login').post((req, res) => {
     if(req.body.username && req.body.password) {
         // itt az (error, user) metódus lesz a done paraméter

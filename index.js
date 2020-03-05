@@ -16,7 +16,15 @@ const ertelmetlen = (req, res, next) => {
     next(); // a req, res menjen tovább a következő feldolgozó middleware-nek
 }
 
-app.use(ertelmetlen());
+const ennekVanErtelme = (req, res, next) => {
+    if(!req.isAuthenticated()) {
+        res.status(403).send('Ehhez nincs jogod');
+    } else {
+        next();
+    }
+}
+
+app.use(ertelmetlen);
 
 // ezekkel lépteti be a passport sessionbe a usert majd szedi ki onnan
 passport.serializeUser((user, done) => {
@@ -45,6 +53,15 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', require('./routes'));
+
+app.use('/inner', ennekVanErtelme);
+app.use('/inner', require('./pelda'));
+
+const lastResort = (req, res, next) => {
+    res.status(200).send('Nyugi, minden rendben csak nem volt route, ami válaszolt volna');
+};
+
+app.use(lastResort);
 
 app.listen(3000, () => {
     console.log('the server is running');
