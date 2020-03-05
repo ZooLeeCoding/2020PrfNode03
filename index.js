@@ -41,8 +41,9 @@ passport.deserializeUser((user, done) => {
 });
 
 passport.use('local', new localStrategy((username, password, done) => {
-    if(username === 'gipszjakab' && password === '12345') {
-        return done(null, {username: username, role: 'user'});
+    const users = require('./users.json').users;
+    if(users[username] && users[username].password === password) {
+        return done(null, {username: username, role: users[username].role});
     } else {
         return done("Hibás felhasználónév vagy jelszó", undefined);
     }
